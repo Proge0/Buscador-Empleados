@@ -40,8 +40,14 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'web.check' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
     ],
 
+    
     /*
     |--------------------------------------------------------------------------
     | User Providers
