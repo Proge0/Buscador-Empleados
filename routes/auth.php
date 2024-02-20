@@ -25,10 +25,12 @@ Route::prefix('auth')->name('auth.')->group(function () {
     });
 
     Route::middleware(['auth:web.check'])->group(function () {
-        Route::get('/home',[AuthController::class,'index'])->name('home');
+        Route::match(['get','post'],'/home',[AuthController::class,'index'])->name('home');
         Route::get('/users',[UserController::class,'index'])->name('users')->middleware('role:ADM');
+        Route::post('/agregar_anexo', [AuthController::class,'create'])->name('create');
         Route::post('/logout',[AuthController::class,'logout'])->name('logout');
         Route::view('/register','back.pages.auth.register')->name('register')->middleware('role:ADM');
+        Route::get('delete/anexo/{id}',[AuthController::class,'deleteAnexo'])->name('deleteAnexo');
     });
 
 });

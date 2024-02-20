@@ -7,9 +7,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 class Anexos extends Model
-{
+{   
+    public $timestamps = false;
     protected $table = 'anexos';
-    // Asegúrate de tener correctamente especificados los campos de la tabla
-    protected $fillable = ['ID', 'numero_publico', 'anexo', 'nombre_anexo', 'departamento'];
+    protected $fillable = ['ID', 'numeros_publicos', 'anexo', 'nombre_anexo', 'departamento'];
 }
 
