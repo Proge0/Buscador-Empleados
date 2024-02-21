@@ -25,7 +25,7 @@
         <div class="card">
             <div class="card-body">
                 <div id="table-default" class="table-responsive">
-                                    <a class="btn btn-success mb-2 me-4 float-end" href="javascript:void(0)" id="createAnexo">Añadir</a>
+                    <a class="btn btn-success mb-2 me-4 float-end" href="javascript:void(0)" id="createAnexo">Añadir</a>
                     <table class="table table-striped table-bordered" id="tablaEmpleados">
                         <thead>
                             <tr>
@@ -41,6 +41,7 @@
                         </tbody>
                     </table>
                 </div>
+                
                     <div class="modal fade" id="ajaxModel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
@@ -74,6 +75,45 @@
                         </div>
                     </div>
 
+                    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabels" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabels">Editar información Anexo </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                {{-- create a form here.. --}}
+                                    <form id="editAnexoForm">
+                                        @csrf
+                                        <input type="hidden" id="edit_anexo_id" name="edit_anexo_id">
+                                        <div class="form-group">
+                                            <label for="anexo_numeros">Número público: </label>
+                                            <input type="number" name="anexo_numeros" class="form-control" id="anexo_numeros">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="anexo_anexo">Número de Anexo: </label>
+                                            <input type="number" name="anexo_anexo" class="form-control" id="anexo_anexo">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="anexo_name">Nombre de Anexo: </label>
+                                            <input type="text" name="anexo_name" class="form-control" id="anexo_name">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="anexo_departamento">Departamento: </label>
+                                            <input type="text" name="anexo_departamento" class="form-control" id="anexo_departamento">
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-primary editButton">Guardar Cambios</button>
+                                </div>
+                            {{-- this is to make sure the save changes button is within form --}}
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -81,9 +121,8 @@
                                     <h5 class="modal-title" id="exampleModalLabel">Eliminar Anexo</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                                    <div class="modal-body">
-                                        
-                                            Realmente desea eliminar: <p class="anexo_names"> </p> ?
+                                    <div class="modal-body">                                       
+                                            <h4>Realmente desea eliminar:</h4> <h2 class="anexo_names"> </h2>
                                     </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -149,9 +188,9 @@ $(document).ready(function() {
             dataType:'json',
             success:function(data){
                 $("#empleadosForm").trigger('reset');
-                $('#ajaxModel').modal('hide');
-                printSuccessMsg(data.msg);
+                $('#ajaxModel').modal('hide'); 
                 table.draw();
+                
             },
             error:function(data){
                 console.log('Error',data);
@@ -187,8 +226,8 @@ $(document).ready(function() {
                 anexo.anexo,
                 anexo.nombre_anexo,
                 anexo.departamento,
-                "<button class='btn me-2 btn-primary btn-sm editar-btn' data-id='" + anexo.ID + "'>Editar</button>" +
-                "<button class='btn btn-danger btn-sm eliminar-btn' data-id='" + anexo.ID + "' data-name='" + anexo.nombre_anexo + "' data-bs-toggle='modal' data-bs-target='#deleteModal'>Eliminar</button>"
+                "<button class='btn me-2 btn-primary btn-sm editar-btn' data-id='" + anexo.ID + "' data-number='" + anexo.numeros_publicos + "' data-anexo='" + anexo.anexo + "' data-name='" + anexo.nombre_anexo + "' data-departamento='" + anexo.departamento + "' data-bs-toggle='modal' data-bs-target='#editModal'>Editar</button>" +
+                "<button class='btn btn-danger btn-sm eliminar-btn' id='eliminarbtn' data-id='" + anexo.ID + "' data-name='" + anexo.nombre_anexo + "' data-bs-toggle='modal' data-bs-target='#deleteModal'>Eliminar</button>"
             ];
         });
 
@@ -196,16 +235,71 @@ $(document).ready(function() {
 
     }
 
-    $('.eliminar-btn').on('click',function(){
-        var anexo_name = $(this).data('name');
+    $(document).on('click', '.editar-btn', function(){
+        var anexo_id = $(this).attr('data-id')
+        var anexo_numeros = $(this).attr('data-number')
+        var anexo_anexo = $(this).attr('data-anexo')
+        var anexo_name = $(this).attr('data-name')
+        var anexo_departamento = $(this).attr('data-departamento')
+
+        $('#anexo_numeros').val(anexo_numeros);
+        $('#anexo_anexo').val(anexo_anexo);
+        $('#anexo_name').val(anexo_name);
+        $('#anexo_departamento').val(anexo_departamento);
+        $('#anexo_id').val(anexo_id);
+
+    });
+
+    $('#editAnexoForm').submit(function(e){
+        e.preventDefault();
+        let formData = $(this).serialize();
+            $.ajax({
+                url: "http://buscador.test/auth/edit/anexo",
+                data: formData,
+                contentType: false,
+                processData: false,
+                        beforeSend:function(){
+                            $('.editButton').prop('disabled', true);
+                        },
+                        complete: function(){
+                            $('.editButton').prop('disabled', false);
+                        },
+                        success: function(data){
+                            if(data.success == true){
+                                // this is the correct way to close modal
+                                $('#editModal').modal('hide');
+                                printSuccessMsg(data.msg);
+                                var reloadInterval = 5000; //page reload delay duration
+                            // Function to reload the whole page
+                            function reloadPage() {
+                                location.reload(true); // Pass true to force a reload from the server and not from the browser cache
+                            }
+                            // Set an interval to reload the page after the specified time
+                            var intervalId = setInterval(reloadPage, reloadInterval);
+                            }else if(data.success == false){
+                                printErrorMsg(data.msg);
+                            }else{
+                                printValidationErrorMsg(data.msg);
+                            }
+                    }
+                    });
+                });
+
+    var anexoId;
+
+    $(document).on('click', '.eliminar-btn', function(){
+        var anexo_name = $(this).attr('data-name');
+        anexoId = $(this).attr('data-id');
         $('.anexo_names').html('');
         $('.anexo_names').html(anexo_name);
     });
 
-    $('.deleteButton').on('click',function(){
-        var anexo_id = $(this).data('id');
-        var url = "{{ route('auth.deleteAnexo','anexo_id')}}";
-        url = url.replace('anexo_id',anexo_id);
+    $(document).on('click','.deleteButton', function(){
+        anexo_id = anexoId
+        console.log(anexo_id);
+        // var url = "{{ route('auth.deleteAnexo','anexo_id')}}";
+        // url = url.replace('anexo_id',anexo_id);
+        var url = "http://buscador.test/auth/delete/anexo/" + anexo_id
         console.log(url);
             $.ajax({
                 url: url,
@@ -233,6 +327,8 @@ $(document).ready(function() {
                         }
                     }
                 });
+
+
 
     function printValidationErrorMsg(msg){
                 $.each(msg, function(field_name, error){
