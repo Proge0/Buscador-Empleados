@@ -54,36 +54,33 @@ class AuthController extends Controller
         return view('back.pages.inicio', compact('anexos'));
     }
     
-    public function editCar(Request $request){
-        // validate form
+    public function editAnexo(Request $request){
         $validator = Validator::make($request->all(),[
             'numeros_publicos' => 'required',
             'anexo' => 'required',
             'nombre_anexo' => 'required',
             'departamento' => 'required',
         ]);
+
         if ($validator->fails()) {
             return response()->json(['msg' => $validator->errors()->toArray()]);
         }else{
-            // perform edit functionality here
             try {
-                // so the car was not updated because of naming of id field input from form
-                Anexos::where('id',$request->car_id)->update([
-                    'numeros_publicos'=>$request->numero_publico,
-                    'anexo'=>$request->numero_anexo,
-                    'nombre_anexo'=>$request->nombre_anexo,
-                    'departamento'=>$request->departamento,
-                    'timestamps' => false
+                Anexos::where('ID',$request->anexo_id)->update([
+                    'numeros_publicos' => $request->anexo_numeros,
+                    'anexo' => $request->anexo_anexo,
+                    'nombre_anexo' => $request->anexo_name,
+                    'departamento' => $request->anexo_departamento,
                 ]);
 
-                return response()->json(['success' => true, 'msg' => 'Anexo actualizado exitosamente']);
+                return response()->json(['success' => true, 'msg' => 'Anexo actualizado con exito']);
 
-                } catch (\Exception $e) {
-                    return response()->json(['success' => false, 'msg' => $e->getMessage()]);
-
-                }
+            } catch (\Exception $e) {
+                return response()->json(['success' => false, 'msg' => $e->getMessage()]);
 
             }
         }
-}
 
+    }
+
+}

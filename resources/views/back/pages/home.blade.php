@@ -86,7 +86,7 @@
                                 {{-- create a form here.. --}}
                                     <form id="editAnexoForm">
                                         @csrf
-                                        <input type="hidden" id="edit_anexo_id" name="edit_anexo_id">
+                                        <input type="hidden" id="anexo_id" name="anexo_id">
                                         <div class="form-group">
                                             <label for="anexo_numeros">Número público: </label>
                                             <input type="number" name="anexo_numeros" class="form-control" id="anexo_numeros">
@@ -103,12 +103,13 @@
                                             <label for="anexo_departamento">Departamento: </label>
                                             <input type="text" name="anexo_departamento" class="form-control" id="anexo_departamento">
                                         </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                            <button type="submit" class="btn btn-primary editButton">Guardar Cambios</button>
+                                        </div>
                                     </form>
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                    <button type="submit" class="btn btn-primary editButton">Guardar Cambios</button>
-                                </div>
+
                             {{-- this is to make sure the save changes button is within form --}}
                             </div>
                         </div>
@@ -235,18 +236,21 @@ $(document).ready(function() {
 
     }
 
-    $(document).on('click', '.editar-btn', function(){
-        var anexo_id = $(this).attr('data-id')
-        var anexo_numeros = $(this).attr('data-number')
-        var anexo_anexo = $(this).attr('data-anexo')
-        var anexo_name = $(this).attr('data-name')
-        var anexo_departamento = $(this).attr('data-departamento')
+    
 
-        $('#anexo_numeros').val(anexo_numeros);
-        $('#anexo_anexo').val(anexo_anexo);
-        $('#anexo_name').val(anexo_name);
-        $('#anexo_departamento').val(anexo_departamento);
-        $('#anexo_id').val(anexo_id);
+    $(document).on('click', '.editar-btn', function(){
+        var anexos_id = $(this).attr('data-id')
+        var anexos_numeros = $(this).attr('data-number')
+        var anexos_anexo = $(this).attr('data-anexo')
+        var anexos_name = $(this).attr('data-name')
+        var anexos_departamento = $(this).attr('data-departamento')
+
+        $('#anexo_numeros').val(anexos_numeros);
+        $('#anexo_anexo').val(anexos_anexo);
+        $('#anexo_name').val(anexos_name);
+        $('#anexo_departamento').val(anexos_departamento);
+        console.log("anexos_id:", anexos_id);
+        $('#anexo_id').val(anexos_id).attr('value', anexos_id);
 
     });
 
@@ -256,25 +260,24 @@ $(document).ready(function() {
             $.ajax({
                 url: "http://buscador.test/auth/edit/anexo",
                 data: formData,
-                contentType: false,
-                processData: false,
+                
                         beforeSend:function(){
+                            console.log(formData)
                             $('.editButton').prop('disabled', true);
+                            console.log('click')
                         },
                         complete: function(){
                             $('.editButton').prop('disabled', false);
+                            console.log('click')
                         },
                         success: function(data){
                             if(data.success == true){
-                                // this is the correct way to close modal
                                 $('#editModal').modal('hide');
                                 printSuccessMsg(data.msg);
-                                var reloadInterval = 5000; //page reload delay duration
-                            // Function to reload the whole page
+                                var reloadInterval = 5000;
                             function reloadPage() {
-                                location.reload(true); // Pass true to force a reload from the server and not from the browser cache
+                                location.reload(true);
                             }
-                            // Set an interval to reload the page after the specified time
                             var intervalId = setInterval(reloadPage, reloadInterval);
                             }else if(data.success == false){
                                 printErrorMsg(data.msg);
