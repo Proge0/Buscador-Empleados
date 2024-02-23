@@ -86,7 +86,7 @@
                                 {{-- create a form here.. --}}
                                     <form id="editAnexoForm">
                                         @csrf
-                                        <input type="hidden" id="anexo_id" name="anexo_id">
+                                        <input type="hidden" id="anexo_ids" name="anexo_ids">
                                         <div class="form-group">
                                             <label for="anexo_numeros">Número público: </label>
                                             <input type="number" name="anexo_numeros" class="form-control" id="anexo_numeros">
@@ -165,6 +165,11 @@ $(document).ready(function() {
         language: {
             url: "//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json"
         }
+    });
+
+    $("#inputField").on("keyup", function() {
+        var valor = $(this).val().toLowerCase();
+        table.search(valor).draw();
     });
 
     $(document).on('click', '#createAnexo', function() {
@@ -250,17 +255,44 @@ $(document).ready(function() {
         $('#anexo_name').val(anexos_name);
         $('#anexo_departamento').val(anexos_departamento);
         console.log("anexos_id:", anexos_id);
-        $('#anexo_id').val(anexos_id).attr('value', anexos_id);
+        $('#anexo_ids').val(anexos_id).attr('value', anexos_id);
 
     });
 
+    $.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    function printValidationErrorMsg(data) {
+        if (data.errors) {
+            $.each(data.errors, function(field_name, errors) {
+                errors.forEach(function(error) {
+                    $(document).find('#' + field_name + '_error').text(error);
+                });
+            });
+        } else {
+            printErrorMsg(data.msg);
+        }
+    }
+
+    function printErrorMsg(msg) {
+        $('#alert-danger').html('');
+        $('#alert-danger').css('display', 'block');
+        $('#alert-danger').append('' + msg + '');
+        $('#alert-success').html('');
+        $('#alert-success').css('display', 'none');
+    }
+    
     $('#editAnexoForm').submit(function(e){
         e.preventDefault();
         let formData = $(this).serialize();
             $.ajax({
-                url: "http://buscador.test/auth/edit/anexo",
+                url: "{{ route('auth.editAnexo')}}",
                 data: formData,
-                
+                dataType: 'json',
+                processData: false,         
                         beforeSend:function(){
                             console.log(formData)
                             $('.editButton').prop('disabled', true);
@@ -275,16 +307,19 @@ $(document).ready(function() {
                                 $('#editModal').modal('hide');
                                 printSuccessMsg(data.msg);
                                 var reloadInterval = 5000;
+                                console.log('success')
                             function reloadPage() {
                                 location.reload(true);
                             }
                             var intervalId = setInterval(reloadPage, reloadInterval);
                             }else if(data.success == false){
                                 printErrorMsg(data.msg);
+                                console.log('fail')
                             }else{
                                 printValidationErrorMsg(data.msg);
+                                console.log('fail2')
                             }
-                    }
+                        }
                     });
                 });
 
@@ -331,30 +366,7 @@ $(document).ready(function() {
                     }
                 });
 
-
-
-    function printValidationErrorMsg(msg){
-                $.each(msg, function(field_name, error){
-                    $(document).find('#'+field_name+'_error').text(error);
-                });
-                }
-                function printErrorMsg(msg){
-                    $('#alert-danger').html('');
-                    $('#alert-danger').css('display','block');
-                    $('#alert-danger').append(''+msg+'');
-                }
-                function printSuccessMsg(msg){
-                    $('#alert-success').html('');
-                    $('#alert-success').css('display','block');
-                    $('#alert-success').append(''+msg+'');
-                document.getElementById('empleadosForm').reset();
-                }
         });
-
-    $("#inputField").on("keyup", function() {
-        var valor = $(this).val().toLowerCase();
-        table.search(valor).draw();
-    });
 
 });
 

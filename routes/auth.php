@@ -31,7 +31,7 @@ Route::prefix('auth')->name('auth.')->group(function () {
         Route::post('/logout',[AuthController::class,'logout'])->name('logout');
         Route::view('/register','back.pages.auth.register')->name('register')->middleware('role:ADM');
         Route::get('delete/anexo/{id}',[AuthController::class,'deleteAnexo'])->name('deleteAnexo');
-        Route::post('/edit/anexo',[AuthController::class,'editAnexo'])->name('editAnexo');
+        Route::get('/edit/anexo',[AuthController::class,'editAnexo'])->name('editAnexo');
     });
 
 });

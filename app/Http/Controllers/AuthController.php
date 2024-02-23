@@ -66,7 +66,7 @@ class AuthController extends Controller
             return response()->json(['msg' => $validator->errors()->toArray()]);
         }else{
             try {
-                Anexos::where('ID',$request->anexo_id)->update([
+                Anexos::where('ID',$request->anexos_ids)->first()->update([
                     'numeros_publicos' => $request->anexo_numeros,
                     'anexo' => $request->anexo_anexo,
                     'nombre_anexo' => $request->anexo_name,
