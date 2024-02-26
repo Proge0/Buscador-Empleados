@@ -69,15 +69,12 @@ class AuthController extends Controller
         } else {
             //dd($request->all());
             try {
-                $anexo = Anexos::where('ID', $request->anexos_ids)->first();
-                if ($anexo) {
-                    $anexo->update([
-                        'numeros_publicos' => $request->anexo_numeros,
-                        'anexo' => $request->anexo_anexo,
-                        'nombre_anexo' => $request->anexo_name,
-                        'departamento' => $request->anexo_departamento,
-                    ]); 
-
+                if ($anexo = Anexos::find($request->anexo_ids)) {
+                        $anexo->numeros_publicos = $request->anexo_numeros;
+                        $anexo->anexo = $request->anexo_anexo;
+                        $anexo->nombre_anexo = $request->anexo_name;
+                        $anexo->departamento = $request->anexo_departamento;
+                        $anexo->update();
                     return response()->json(['success' => true, 'msg' => 'Anexo actualizado con exito']);
                 } else {
                     return response()->json(['error' => false, 'msg' => 'No se encontró el registro que se desea actualizar']);
@@ -88,6 +85,7 @@ class AuthController extends Controller
             }
         }
     }
+
     public function addEmpleados(Request $request){
         return view('back.pages.auth.add');
     }

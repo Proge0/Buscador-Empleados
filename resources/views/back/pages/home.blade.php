@@ -277,6 +277,15 @@ $(document).ready(function() {
         }
     }
 
+
+    function printSuccessMsg(msg) {
+        $('#alert-success').html('');
+        $('#alert-success').css('display', 'block');
+        $('#alert-success').append('' + msg + '');
+        $('#alert-danger').html('');
+        $('#alert-danger').css('display', 'none');
+    }
+
     function printErrorMsg(msg) {
         $('#alert-danger').html('');
         $('#alert-danger').css('display', 'block');
@@ -292,23 +301,20 @@ $(document).ready(function() {
             $.ajax({
                 url: "{{ route('auth.editAnexo')}}",
                 data: formData,
-                dataType: 'json',
-                processData: false,         
+                dataType: 'json',       
                         beforeSend:function(){
                             console.log(formData)
                             $('.editButton').prop('disabled', true);
-                           // console.log('click')
                         },
                         complete: function(){
                             $('.editButton').prop('disabled', false);
-                           
                         },
                         success: function(data){
                             console.log(data)
                             if(data.success == true){
                                 $('#editModal').modal('hide');
                                 printSuccessMsg(data.success);
-                                var reloadInterval = 5000;
+                                var reloadInterval = 50000;
                                 console.log('success')
                             function reloadPage() {
                                 location.reload(true);
