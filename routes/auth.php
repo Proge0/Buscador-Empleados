@@ -32,6 +32,7 @@ Route::prefix('auth')->name('auth.')->group(function () {
         Route::view('/register','back.pages.auth.register')->name('register')->middleware('role:ADM');
         Route::get('delete/anexo/{id}',[AuthController::class,'deleteAnexo'])->name('deleteAnexo');
         Route::get('/edit/anexo',[AuthController::class,'editAnexo'])->name('editAnexo');
+        Route::get('/agregar_empleado', [AuthController::class,'addEmpleados'])->name('addEmpleados');
     });
 
 });

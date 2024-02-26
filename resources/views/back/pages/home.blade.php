@@ -266,7 +266,7 @@ $(document).ready(function() {
     });
 
     function printValidationErrorMsg(data) {
-        if (data.errors) {
+        if (data.hasOwnProperty('errors')) {
             $.each(data.errors, function(field_name, errors) {
                 errors.forEach(function(error) {
                     $(document).find('#' + field_name + '_error').text(error);
@@ -288,6 +288,7 @@ $(document).ready(function() {
     $('#editAnexoForm').submit(function(e){
         e.preventDefault();
         let formData = $(this).serialize();
+      //  console.log(formData)
             $.ajax({
                 url: "{{ route('auth.editAnexo')}}",
                 data: formData,
@@ -296,16 +297,17 @@ $(document).ready(function() {
                         beforeSend:function(){
                             console.log(formData)
                             $('.editButton').prop('disabled', true);
-                            console.log('click')
+                           // console.log('click')
                         },
                         complete: function(){
                             $('.editButton').prop('disabled', false);
-                            console.log('click')
+                           
                         },
                         success: function(data){
+                            console.log(data)
                             if(data.success == true){
                                 $('#editModal').modal('hide');
-                                printSuccessMsg(data.msg);
+                                printSuccessMsg(data.success);
                                 var reloadInterval = 5000;
                                 console.log('success')
                             function reloadPage() {
@@ -313,11 +315,11 @@ $(document).ready(function() {
                             }
                             var intervalId = setInterval(reloadPage, reloadInterval);
                             }else if(data.success == false){
-                                printErrorMsg(data.msg);
-                                console.log('fail')
+                                printErrorMsg(data,'123');
+                               console.log(data,'123')
                             }else{
-                                printValidationErrorMsg(data.msg);
-                                console.log('fail2')
+                                printValidationErrorMsg(data);
+                                console.log(data)
                             }
                         }
                     });
