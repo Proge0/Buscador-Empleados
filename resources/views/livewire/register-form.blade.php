@@ -35,6 +35,11 @@
                     @enderror
                 </div>
 
+                <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" wire:model="is_admin">
+                <label class="form-check-label" for="flexSwitchCheckDefault">¿Es administrador?</label>
+                </div>
+
                 <div class="form-footer">
                     <button type="submit" class="btn btn-primary w-100">Registrarse</button>
                 </div>

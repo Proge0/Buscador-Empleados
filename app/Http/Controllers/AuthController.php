@@ -69,7 +69,7 @@ class AuthController extends Controller
         } else {
             //dd($request->all());
             try {
-                if ($anexo = Anexos::find($request->anexo_ids)) {
+                if ($anexo = Anexos::findOrFail($request->anexo_ids)) {
                         $anexo->numeros_publicos = $request->anexo_numeros;
                         $anexo->anexo = $request->anexo_anexo;
                         $anexo->nombre_anexo = $request->anexo_name;

@@ -11,6 +11,8 @@ class RegisterForm extends Component
     public $username;
     public $email;
     public $password;
+    public $rol = 'USR';
+    public $is_admin = false;
 
     public function createUser(){
         $this->validate([
@@ -23,14 +25,25 @@ class RegisterForm extends Component
             'username' => $this->username,
             'email'=> $this->email,
             'password'=> Hash::make($this->password),
+            'rol' => $this->rol,
         ]);
 
         Session::flash('success', 'Usuario creado exitosamente.');
         return redirect()->route('auth.home');
     }
     
-       public function render(){
+    public function updated($field)
+    {
+        if ($field == 'is_admin') {
+            if ($this->is_admin) {
+                $this->rol = 'ADM';
+            } else {
+                $this->rol = 'USR';
+            }
+        }
+    }
+    
+    public function render(){
         return view('livewire.register-form');
     }
-
 }

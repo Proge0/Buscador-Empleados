@@ -84,7 +84,7 @@
                                 </div>
                                 <div class="modal-body">
                                 {{-- create a form here.. --}}
-                                    <form id="editAnexoForm">
+                                    <form method="POST" id="editAnexoForm">
                                         @csrf
                                         <input type="hidden" id="anexo_ids" name="anexo_ids">
                                         <div class="form-group">
@@ -255,7 +255,7 @@ $(document).ready(function() {
         $('#anexo_name').val(anexos_name);
         $('#anexo_departamento').val(anexos_departamento);
         console.log("anexos_id:", anexos_id);
-        $('#anexo_ids').val(anexos_id).attr('value', anexos_id);
+        $('#anexo_ids').val(anexos_id);
 
     });
 
@@ -294,13 +294,14 @@ $(document).ready(function() {
         $('#alert-success').css('display', 'none');
     }
     
-    $('#editAnexoForm').submit(function(e){
+    $('#editAnexoForm').on('submit', function(e){
         e.preventDefault();
         let formData = $(this).serialize();
       //  console.log(formData)
             $.ajax({
                 url: "{{ route('auth.editAnexo')}}",
                 data: formData,
+                method: 'POST',
                 dataType: 'json',       
                         beforeSend:function(){
                             console.log(formData)
