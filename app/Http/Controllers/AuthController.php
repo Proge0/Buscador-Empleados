@@ -23,7 +23,7 @@ class AuthController extends Controller
         return view('back.pages.home', compact('anexos'));
     }
     public function create(Request $request) {
-        Anexos::updateOrCreate(['ID'=>$request->anexo_id],
+        Anexos::updateOrCreate(['id'=>$request->anexo_id],
         [
         'numeros_publicos'=>$request->numero_publico,
         'anexo'=>$request->numero_anexo,
@@ -37,7 +37,7 @@ class AuthController extends Controller
 
     public function deleteAnexo($id) {
         try {
-            $delete_anexo = Anexos::where('ID',$id)->delete();
+            $delete_anexo = Anexos::where('id',$id)->delete();
             return response()->json(['success' => true, 'msg' => 'Anexo Eliminado con exito']);
 
         } catch (\Exception $e) {
@@ -74,7 +74,7 @@ class AuthController extends Controller
                         $anexo->anexo = $request->anexo_anexo;
                         $anexo->nombre_anexo = $request->anexo_name;
                         $anexo->departamento = $request->anexo_departamento;
-                        $anexo->update();
+                        $anexo->save();
                     return response()->json(['success' => true, 'msg' => 'Anexo actualizado con exito']);
                 } else {
                     return response()->json(['error' => false, 'msg' => 'No se encontró el registro que se desea actualizar']);

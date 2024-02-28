@@ -10,6 +10,6 @@ class Anexos extends Model
 {   
     public $timestamps = false;
     protected $table = 'anexos';
-    protected $fillable = ['ID', 'numeros_publicos', 'anexo', 'nombre_anexo', 'departamento'];
+    protected $fillable = ['id', 'numeros_publicos', 'anexo', 'nombre_anexo', 'departamento'];
 }
 

@@ -152,6 +152,8 @@ div.dataTables_wrapper div.dataTables_filter input {
 
 <script>
 
+
+
 var table;
 
 $(document).ready(function() {
@@ -232,8 +234,8 @@ $(document).ready(function() {
                 anexo.anexo,
                 anexo.nombre_anexo,
                 anexo.departamento,
-                "<button class='btn me-2 btn-primary btn-sm editar-btn' data-id='" + anexo.ID + "' data-number='" + anexo.numeros_publicos + "' data-anexo='" + anexo.anexo + "' data-name='" + anexo.nombre_anexo + "' data-departamento='" + anexo.departamento + "' data-bs-toggle='modal' data-bs-target='#editModal'>Editar</button>" +
-                "<button class='btn btn-danger btn-sm eliminar-btn' id='eliminarbtn' data-id='" + anexo.ID + "' data-name='" + anexo.nombre_anexo + "' data-bs-toggle='modal' data-bs-target='#deleteModal'>Eliminar</button>"
+                "<button class='btn me-2 btn-primary btn-sm editar-btn' data-id='" + anexo.id + "' data-number='" + anexo.numeros_publicos + "' data-anexo='" + anexo.anexo + "' data-name='" + anexo.nombre_anexo + "' data-departamento='" + anexo.departamento + "' data-bs-toggle='modal' data-bs-target='#editModal'>Editar</button>" +
+                "<button class='btn btn-danger btn-sm eliminar-btn' id='eliminarbtn' data-id='" + anexo.id + "' data-name='" + anexo.nombre_anexo + "' data-bs-toggle='modal' data-bs-target='#deleteModal'>Eliminar</button>"
             ];
         });
 
@@ -315,7 +317,7 @@ $(document).ready(function() {
                             if(data.success == true){
                                 $('#editModal').modal('hide');
                                 printSuccessMsg(data.success);
-                                var reloadInterval = 50000;
+                                var reloadInterval = 1000;
                                 console.log('success')
                             function reloadPage() {
                                 location.reload(true);
