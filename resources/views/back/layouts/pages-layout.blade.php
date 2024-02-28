@@ -52,6 +52,8 @@
     <!-- Libs JS -->
     <script src="./back/dist/libs/apexcharts/dist/apexcharts.min.js?1684106062" defer></script>
     <script src="./back/dist/libs/jsvectormap/dist/js/jsvectormap.min.js?1684106062" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script src="./back/dist/libs/jsvectormap/dist/maps/world.js?1684106062" defer></script>
     <script src="./back/dist/libs/jsvectormap/dist/maps/world-merc.js?1684106062" defer></script>
     <!-- Tabler Core -->

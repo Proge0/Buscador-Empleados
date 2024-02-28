@@ -44,6 +44,7 @@
               <img src="./back/static/logo3.png" width="125" height="60" alt="LogoMuni">
             </a>
           </h1>
+          @if(!auth()->user())
             <div class="navbar-nav flex-row order-md-last">
                 <button class="btn btn-outline-primary">
                   <a href="{{ route('auth.login') }}" class="nav-link d-flex lh-1 text-reset p-0 ">
@@ -52,8 +53,10 @@
                     </div>
                   </a>
                 </button>
-            </div>
 
+                {{auth()->user()}}
+            </div>
+          @endif
         </div>
 </header>
 

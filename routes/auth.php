@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CSVImportController;
 use App\Livewire\RegisterForm;
 use Illuminate\Support\Facades\Route;
 use \App\http\Controllers\AuthController;
@@ -33,6 +34,7 @@ Route::prefix('auth')->name('auth.')->group(function () {
         Route::get('delete/anexo/{id}',[AuthController::class,'deleteAnexo'])->name('deleteAnexo');
         Route::match(['get','post'],'/edit/anexo',[AuthController::class,'editAnexo'])->name('editAnexo');
         Route::get('/agregar_empleado', [AuthController::class,'addEmpleados'])->name('addEmpleados');
+        Route::post('/import', [CSVImportController::class,'import'])->name('import');
     });
 
 });

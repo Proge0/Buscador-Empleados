@@ -11,7 +11,6 @@
     <link href="./back/dist/css/tabler-flags.min.css?1684106062" rel="stylesheet"/>
     <link href="./back/dist/css/tabler-payments.min.css?1684106062" rel="stylesheet"/>
     <link href="./back/dist/css/tabler-vendors.min.css?1684106062" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
     <script src="https://cdn.datatables.net/fixedheader/3.2.0/js/dataTables.fixedHeader.min.js"></script>
@@ -30,7 +29,7 @@
     </style>
     <!-- Script de jQuery y Toastr -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
   <body  class=" d-flex flex-column theme-dark-auto">
     <script src="./back/dist/js/demo-theme.min.js?1684106062"></script>

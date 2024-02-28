@@ -198,15 +198,30 @@ $(document).ready(function() {
                 $("#empleadosForm").trigger('reset');
                 $('#ajaxModel').modal('hide'); 
                 table.draw();
-                
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Éxito',
+                    text: 'Se ha creado el anexo exitosamente',
+                    showConfirmButton: true,
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#3085d6'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.reload();
+                    }
+                });
             },
             error:function(data){
                 console.log('Error',data);
                 $("#saveBtn").html('Guardar');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Ocurrió un error al crear el anexo'
+                });
             }
         });
     });
-
 
     
     var filasOriginales = [];
@@ -299,40 +314,44 @@ $(document).ready(function() {
     $('#editAnexoForm').on('submit', function(e){
         e.preventDefault();
         let formData = $(this).serialize();
-      //  console.log(formData)
-            $.ajax({
-                url: "{{ route('auth.editAnexo')}}",
-                data: formData,
-                method: 'POST',
-                dataType: 'json',       
-                        beforeSend:function(){
-                            console.log(formData)
-                            $('.editButton').prop('disabled', true);
-                        },
-                        complete: function(){
-                            $('.editButton').prop('disabled', false);
-                        },
-                        success: function(data){
-                            console.log(data)
-                            if(data.success == true){
-                                $('#editModal').modal('hide');
-                                printSuccessMsg(data.success);
-                                var reloadInterval = 1000;
-                                console.log('success')
-                            function reloadPage() {
-                                location.reload(true);
-                            }
-                            var intervalId = setInterval(reloadPage, reloadInterval);
-                            }else if(data.success == false){
-                                printErrorMsg(data,'123');
-                               console.log(data,'123')
-                            }else{
-                                printValidationErrorMsg(data);
-                                console.log(data)
-                            }
+        $.ajax({
+            url: "{{ route('auth.editAnexo')}}",
+            data: formData,
+            method: 'POST',
+            dataType: 'json',       
+            beforeSend:function(){
+                console.log(formData)
+                $('.editButton').prop('disabled', true);
+            },
+            complete: function(){
+                $('.editButton').prop('disabled', false);
+            },
+            success: function(data){
+                console.log(data)
+                if(data.success == true){
+                    $('#editModal').modal('hide');
+                  Swal.fire({
+                    icon: 'success',
+                    title: 'Éxito',
+                    text: 'Se ha actualizado el anexo exitosamente',
+                    showConfirmButton: true,
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#3085d6'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.reload();
                         }
                     });
-                });
+                }else if(data.success == false){
+                    printErrorMsg(data,'123');
+                    console.log(data,'123')
+                }else{
+                    printValidationErrorMsg(data);
+                    console.log(data)
+                }
+            }
+        });
+    });
 
     var anexoId;
 
@@ -346,8 +365,6 @@ $(document).ready(function() {
     $(document).on('click','.deleteButton', function(){
         anexo_id = anexoId
         console.log(anexo_id);
-        // var url = "{{ route('auth.deleteAnexo','anexo_id')}}";
-        // url = url.replace('anexo_id',anexo_id);
         var url = "http://buscador.test/auth/delete/anexo/" + anexo_id
         console.log(url);
             $.ajax({
@@ -364,23 +381,26 @@ $(document).ready(function() {
                     success: function(data){
                         console.log('Respuesta del servidor:', data);
                         if(data.success == true){
-                            $('#deleteModal').modal('hide');
-                            printSuccessMsg(data.msg);
-                            var reloadInterval = 100000;
-                        function reloadPage() {
-                            location.reload(true);
-                        }
-                        var intervalId = setInterval(reloadPage, reloadInterval);
+                            Swal.fire({
+                                    icon: 'success',
+                                    title: 'Éxito',
+                                    text: 'Se ha eliminado el anexo exitosamente',
+                                    showConfirmButton: true,
+                                    confirmButtonText: 'OK',
+                                    confirmButtonColor: '#3085d6'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            location.reload();
+                                        }
+                                    });
                         }else{
                             printErrorMsg(data.msg);
                         }
                     }
                 });
 
-        });
-
+    });
 });
-
 
 </script>
 
