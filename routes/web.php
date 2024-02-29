@@ -15,7 +15,10 @@ use \App\Http\Middleware\RedirectIfAuthenticated;
 */
 
 Route::get('/', function () {
-    return view('back.pages.inicio');
+    return redirect()->route('inicio');
 });
 
 
+Route::fallback(function () {
+    return redirect()->route('inicio');
+});

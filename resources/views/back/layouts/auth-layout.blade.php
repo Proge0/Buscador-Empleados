@@ -4,6 +4,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('pageTitle')</title>
     <!-- CSS files -->
     <base href="/">
@@ -33,10 +34,12 @@
   </head>
   <body  class=" d-flex flex-column theme-dark-auto">
     <script src="./back/dist/js/demo-theme.min.js?1684106062"></script>
+    <script src="{{ asset('js/script.js') }}"></script>
     @yield('content')
     <!-- Libs JS -->
     <!-- Tabler Core -->
     <script src="./back/dist/js/tabler.min.js?1684106062" defer></script>
+
     @stack('scripts')
     @livewireScripts
     <script src="./back/dist/js/demo.min.js?1684106062" defer></script>

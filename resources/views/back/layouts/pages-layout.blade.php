@@ -6,6 +6,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('pageTitle')</title>
     <!-- CSS files -->
     <base href="/"/>
@@ -53,11 +54,11 @@
     <script src="./back/dist/libs/apexcharts/dist/apexcharts.min.js?1684106062" defer></script>
     <script src="./back/dist/libs/jsvectormap/dist/js/jsvectormap.min.js?1684106062" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <script src="./back/dist/libs/jsvectormap/dist/maps/world.js?1684106062" defer></script>
     <script src="./back/dist/libs/jsvectormap/dist/maps/world-merc.js?1684106062" defer></script>
     <!-- Tabler Core -->
     <script src="./back/dist/js/tabler.min.js?1684106062" defer></script>
+    <script src="{{ asset('js/script.js') }}"></script>
     @stack('scripts')
     @livewireScripts
     <script src="./back/dist/js/demo.min.js?1684106062" defer></script>

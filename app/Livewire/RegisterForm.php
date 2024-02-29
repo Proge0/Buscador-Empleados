@@ -29,7 +29,7 @@ class RegisterForm extends Component
         ]);
 
         Session::flash('success', 'Usuario creado exitosamente.');
-        return redirect()->route('auth.home');
+        return redirect()->route('auth.users');
     }
     
     public function updated($field)

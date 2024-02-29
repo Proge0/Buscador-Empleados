@@ -20,6 +20,7 @@
                   </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                  <a href="#" class="dropdown-item"">Mi Perfil</a>
                   <a href="{{ route('auth.logout') }}" class="dropdown-item" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Desconectarse</a>
                   <form action="{{ route('auth.logout') }}" id="logout-form" method="POST">@csrf</form>
                 </div>

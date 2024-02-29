@@ -10,7 +10,7 @@ class CSVImportController extends Controller
 public function import(Request $request)
     {
         $request->validate([
-            'file' => 'required|mimes:csv,txt',
+            'file' => 'required|mimes:csv,txt,xlsx',
         ]);
 
         $file = $request->file('file');
@@ -22,7 +22,7 @@ public function import(Request $request)
         $highestRow = $sheet->getHighestRow();
         $anexos = [];
 
-        for ($row = 1; $row <= $highestRow; $row++) {
+        for ($row = 2; $row <= $highestRow; $row++) {
                 $numero_publico = $sheet->getCell('A'.$row)->getValue();
                 $anexo = $sheet->getCell('B'.$row)->getValue();
                 $nombre_anexo = $sheet->getCell('C'.$row)->getValue();

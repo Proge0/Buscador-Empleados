@@ -15,13 +15,15 @@ class AuthController extends Controller
     return response()->json($anexos);
     }
     public function index(Request $request){
-        if ($request->ajax()) {
-            return $this->getAnexos($request);
-        }
-
         $anexos = Anexos::all();
         return view('back.pages.home', compact('anexos'));
     }
+    public function listarAnexo(Request $request) {
+        if ($request->ajax()) {
+            return $this->getAnexos($request);
+        }
+    }
+
     public function create(Request $request) {
         Anexos::updateOrCreate(['id'=>$request->anexo_id],
         [

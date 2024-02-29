@@ -30,6 +30,7 @@
                             <p>✓ El formato del archivo debe ser CSV (delimitado por comas).</p>
                             <p>✓ El orden de las columnas debe ser: Número Público - Número Anexo - Nombre Anexo - Departamento.</p>
                             <p>✓ No debe haber columnas adicionales ni faltantes.</p>
+                            <h3 class="card-title">Presiona en este botón para descargar el formato correcto:</h3>
                         </div>
                     </div>
                 </div>

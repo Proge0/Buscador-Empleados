@@ -26,12 +26,14 @@ Route::prefix('auth')->name('auth.')->group(function () {
     });
 
     Route::middleware(['auth:web.check'])->group(function () {
-        Route::match(['get','post'],'/home',[AuthController::class,'index'])->name('home');
+        Route::get('/home',[AuthController::class,'index'])->name('home');
+        Route::post('/listar-anexo',[AuthController::class,'listarAnexo'])->name('listar.anexo');
         Route::get('/users',[UserController::class,'index'])->name('users')->middleware('role:ADM');
         Route::post('/agregar_anexo', [AuthController::class,'create'])->name('create');
         Route::post('/logout',[AuthController::class,'logout'])->name('logout');
         Route::view('/register','back.pages.auth.register')->name('register')->middleware('role:ADM');
         Route::get('delete/anexo/{id}',[AuthController::class,'deleteAnexo'])->name('deleteAnexo');
+        Route::get('delete/user/{id}',[UserController::class,'deleteUser'])->name('deleteUser');
         Route::match(['get','post'],'/edit/anexo',[AuthController::class,'editAnexo'])->name('editAnexo');
         Route::get('/agregar_empleado', [AuthController::class,'addEmpleados'])->name('addEmpleados');
         Route::post('/import', [CSVImportController::class,'import'])->name('import');
