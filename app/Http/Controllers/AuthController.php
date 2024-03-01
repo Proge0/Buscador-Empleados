@@ -34,16 +34,25 @@ class AuthController extends Controller
         'timestamps' => false
         ]
     );
-        return response()->json(['success'=> true, 'msg' => 'Anexo creado exitosamente']);
+        return response()->json([
+            'success'=> true, 
+            'msg' => 'Anexo creado exitosamente'
+        ]);
     }
 
     public function deleteAnexo($id) {
         try {
             $delete_anexo = Anexos::where('id',$id)->delete();
-            return response()->json(['success' => true, 'msg' => 'Anexo Eliminado con exito']);
+            return response()->json([
+                'success' => true,
+                'msg' => 'Anexo Eliminado con exito'
+            ]);
 
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'msg' => $e->getMessage()]);
+            return response()->json([
+                'success' => false, 
+                'msg' => $e->getMessage()
+            ]);
         }
     }
 
@@ -67,7 +76,9 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['msg' => $validator->errors()->toArray()]);
+            return response()->json([
+                'msg' => $validator->errors()->toArray()
+            ]);
         } else {
             //dd($request->all());
             try {
@@ -77,13 +88,22 @@ class AuthController extends Controller
                         $anexo->nombre_anexo = $request->anexo_name;
                         $anexo->departamento = $request->anexo_departamento;
                         $anexo->save();
-                    return response()->json(['success' => true, 'msg' => 'Anexo actualizado con exito']);
+                        return response()->json([
+                            'success' => true,
+                            'msg' => 'Anexo actualizado con exito',
+                        ]);
                 } else {
-                    return response()->json(['error' => false, 'msg' => 'No se encontró el registro que se desea actualizar']);
+                    return response()->json([
+                        'error' => false,
+                        'msg' => 'No se encontró el registro que se desea actualizar'
+                    ]);
                 }
 
             } catch (\Exception $e) {
-                return response()->json(['error' => false, 'msg' => $e->getMessage()]);
+                return response()->json([
+                    'error' => false, 
+                    'msg' => $e->getMessage()
+                ]);
             }
         }
     }

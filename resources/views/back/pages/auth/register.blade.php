@@ -1,5 +1,5 @@
 @extends('back.layouts.auth-layout')
-@section('pageTitle', isset($pageTitle) ? $pageTitle : 'Registrar Usuario - Buscador Empleados Municipalidad de Arica')
+@section('pageTitle', isset($pageTitle) ? $pageTitle : 'Registrar Usuario - Buscador Anexos Municipalidad de Arica')
 @section('content')
 
 <div class="page page-center">

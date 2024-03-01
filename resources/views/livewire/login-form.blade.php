@@ -24,7 +24,7 @@
                 <label class="form-label">
                   Contraseña
                   <span class="form-label-description">
-                    <a href="{{ route('auth.forgot-password')}}">Olvide mi contraseña</a>
+                    <a href="{{ route('auth.forgot.password.get')}}">Olvide mi contraseña</a>
                   </span>
                 </label>
                 <div class="input-group input-group-flat">

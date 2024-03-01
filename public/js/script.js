@@ -36,7 +36,6 @@ $(document).ready(function () {
             allowEscapeKey: false,
         }).then((result) => {
             if (result.isConfirmed) {
-                // Recargar la página al hacer clic en cualquier lugar del modal
                 Swal.getPopup().addEventListener("click", () => {
                     location.reload();
                 });
@@ -158,14 +157,6 @@ $(document).ready(function () {
         }
     }
 
-    function printSuccessMsg(msg) {
-        $("#alert-success").html("");
-        $("#alert-success").css("display", "block");
-        $("#alert-success").append("" + msg + "");
-        $("#alert-danger").html("");
-        $("#alert-danger").css("display", "none");
-    }
-
     function printErrorMsg(msg) {
         $("#alert-danger").html("");
         $("#alert-danger").css("display", "block");
@@ -178,7 +169,7 @@ $(document).ready(function () {
         e.preventDefault();
         let formData = $(this).serialize();
         $.ajax({
-            url: "{{ route('auth.editAnexo')}}",
+            url: "http://buscador.test/auth/edit/anexo",
             data: formData,
             method: "POST",
             dataType: "json",

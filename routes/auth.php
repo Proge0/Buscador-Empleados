@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use \App\http\Controllers\AuthController;
 use \App\http\Controllers\UserController;
 use \App\Http\Middleware\RedirectIfAuthenticated;
+use App\Http\Controllers\ForgotPasswordController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,7 +24,10 @@ Route::prefix('auth')->name('auth.')->group(function () {
 
     Route::middleware(['guest:web'])->group(function () { 
         Route::view('/login','back.pages.auth.login')->name('login');
-        Route::view('/forgot-password','back.pages.auth.forgot')->name('forgot-password');
+        Route::get('/forgot-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forgot.password.get');
+        Route::post('/forgot-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forgot.password.post'); 
+        Route::get('/reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
+        Route::post('/reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
     });
 
     Route::middleware(['auth:web.check'])->group(function () {
@@ -40,5 +45,7 @@ Route::prefix('auth')->name('auth.')->group(function () {
     });
 
 });
+
+
 
 Route::get('/inicio',[AuthController::class,'indexInicio'])->name('inicio');

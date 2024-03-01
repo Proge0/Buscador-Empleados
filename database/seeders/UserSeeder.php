@@ -27,5 +27,11 @@ class UserSeeder extends Seeder
               'rol' => 'ADM',
             'password' => Hash::make('User123.'),
         ]);
+
+            DB::table('users')->insert([
+            'username' => 'JoanVillanueva',
+            'email' => 'joan.villanueva@municipalidadarica.cl',
+            'password' => Hash::make('Admin123.'),
+        ]);
     }
 }

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use \App\http\Controllers\AuthController;
 use \App\Http\Middleware\RedirectIfAuthenticated;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes

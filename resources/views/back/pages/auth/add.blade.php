@@ -1,5 +1,5 @@
 @extends('back.layouts.pages-layout')
-@section('pageTitle', isset($pageTitle) ? $pageTitle : 'Agregar Empleados - Municipalidad de Arica')
+@section('pageTitle', isset($pageTitle) ? $pageTitle : 'Agregar Anexos - Municipalidad de Arica')
 @section('content')
 
 <div class="container-xl">
@@ -7,7 +7,7 @@
     <div class="w-100 d-flex">
       <div class="d-flex flex-column" style="margin: auto;">
         <div class="text-center">
-          <h1>Agregar Empleados</h1>
+          <h1>Agregar Anexos</h1>
           <div class="d-md-block">
             <form action="{{ route('auth.import') }}" method="POST" enctype="multipart/form-data">
               @csrf

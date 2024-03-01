@@ -1,5 +1,5 @@
 
-@section('pageTitle', isset($pageTitle) ? $pageTitle : 'Inicio - Municipalidad de Arica')
+@section('pageTitle', isset($pageTitle) ? $pageTitle : 'Inicio - Buscador Anexos Municipalidad de Arica')
 
 <!doctype html>
 
