@@ -41,8 +41,8 @@
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->rol }}</td>
                                     <td>                
-                                      <button class="btn btn-primary btn-sm editar-btn @if(auth()->user()->rol === 'ADM' && $user->rol === 'ADM') d-none @endif" data-id="{{ $user->id }}" data-name="{{ $user->username }}">Editar</button>
-                                      <button class="btn btn-danger btn-sm eliminar-btn @if(auth()->user()->rol === 'ADM' && $user->rol === 'ADM') d-none @endif" data-id="{{ $user->id }}"  data-name="{{ $user->username }}">Eliminar</button>
+                                      <button class="btn btn-primary btn-sm editar-btn-user @if(auth()->user()->rol === 'ADM' && $user->rol === 'ADM') d-none @endif" data-bs-toggle="modal" data-bs-target="#editModalUser" data-id="{{ $user->id }}"  data-name="{{ $user->username }}" data-email="{{ $user->email }}" data-password="{{ $user->password }}" data-rol="{{ $user->rol }}">Editar</button>
+                                      <button class="btn btn-danger btn-sm eliminar-btn-user @if(auth()->user()->rol === 'ADM' && $user->rol === 'ADM') d-none @endif" data-id="{{ $user->id }}"  data-name="{{ $user->username }}" data-email="{{ $user->email }}" data-password="{{ $user->password }}" data-rol="{{ $user->rol }}">Eliminar</button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -52,7 +52,52 @@
             </div>
         </div>
 
-                    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="editModalUser" tabindex="-1" aria-labelledby="exampleModalLabels" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3 class="modal-title" id="exampleModalLabels">Editar Usuario </h3>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="POST" id="editUserForm">
+                                        @csrf
+                                        <input type="hidden" id="user_id" name="user_id">
+                                        <div class="form-group">
+                                            <label for="user_name">Nombre de Usuario: </label>
+                                            <input type="text" name="user_name" class="form-control" id="user_name">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="user_correo">Correo: </label>
+                                            <input type="email" name="user_correo" class="form-control" id="user_correo">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="user_contraseña">Contraseña: </label>
+                                            <input type="password" name="user_contraseña" class="form-control" id="user_contraseña">
+                                        </div>
+                                        <div class="form-group">
+                                            <div for="user_rol">Rol:</div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="user_rol" id="user_rol_usr" value="USR" {{ $user->rol == 'USR' ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="user_rol_usr">USR</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="user_rol" id="user_rol_adm" value="ADM" {{ $user->rol == 'ADM' ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="user_rol_adm">ADM</label>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                            <button type="submit" class="btn btn-primary editButton">Guardar Cambios</button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="deleteModalUser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -123,7 +168,6 @@ $(document).ready(function() {
             allowEscapeKey: false,
             }).then((result) => {
             if (result.isConfirmed) {
-                // Recargar la página al hacer clic en cualquier lugar del modal
                 Swal.getPopup().addEventListener('click', () => {
                 location.reload();
                 });
@@ -131,14 +175,82 @@ $(document).ready(function() {
             });
     }
 
+    $(document).on("click", ".editar-btn-user", function () {
+        var users_id = $(this).attr("data-id");
+        var users_name = $(this).attr("data-name");
+        var users_email = $(this).attr("data-email");
+        var users_password = $(this).attr("data-password");
+        var users_rol = $(this).attr("data-rol");
+
+        $("#user_name").val(users_name);
+        $("#user_correo").val(users_email);
+        $("#user_rol").val(users_rol);
+        console.log("user_id:", users_id);
+        $("#user_id").val(users_id);
+    });
+
+    function printValidationErrorMsg(data) {
+        if (data.hasOwnProperty("errors")) {
+            $.each(data.errors, function (field_name, errors) {
+                errors.forEach(function (error) {
+                    $(document)
+                        .find("#" + field_name + "_error")
+                        .text(error);
+                });
+            });
+        } else {
+            printErrorMsg(data.msg);
+        }
+    }
+
+    function printErrorMsg(msg) {
+        $("#alert-danger").html("");
+        $("#alert-danger").css("display", "block");
+        $("#alert-danger").append("" + msg + "");
+        $("#alert-success").html("");
+        $("#alert-success").css("display", "none");
+    }
+
+    $("#editUserForm").on("submit", function (e) {
+        e.preventDefault();
+        let formData = $(this).serialize();
+        $.ajax({
+            url: "http://buscador.test/auth/edit/user",
+            data: formData,
+            method: "POST",
+            dataType: "json",
+            beforeSend: function () {
+                console.log(formData);
+                $(".editButton").prop("disabled", true);
+            },
+            complete: function () {
+                $(".editButton").prop("disabled", false);
+            },
+            success: function (data) {
+                console.log(data);
+                if (data.success == true) {
+                    $("#editModalUser").modal("hide");
+                    showSuccessAlert("Se ha editado el anexo exitosamente");
+                } else if (data.success == false) {
+                    printErrorMsg(data, "123");
+                    console.log(data, "123");
+                } else {
+                    printValidationErrorMsg(data);
+                    console.log(data);
+                }
+            },
+        });
+    });
+
+
   var userId;
 
-  $(document).on('click', '.eliminar-btn', function(){
+  $(document).on('click', '.eliminar-btn-user', function(){
       var user_name = $(this).attr('data-name');
       userId = $(this).attr('data-id');
       $('.user_names').html('');
       $('.user_names').html(user_name);
-      $('#deleteModal').modal('show'); // Show the modal
+      $('#deleteModalUser').modal('show'); // Show the modal
   });
 
   $(document).on('click','.deleteButton', function(){

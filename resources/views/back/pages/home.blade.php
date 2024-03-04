@@ -25,7 +25,7 @@
         <div class="card">
             <div class="card-body">
                 <div id="table-default" class="table-responsive">
-                    <a class="btn btn-success mb-2 me-4 float-end" href="javascript:void(0)" id="createAnexo">Añadir</a>
+                    <a class="btn btn-success mb-2 me-4 float-end" href="javascript:void(0)" id="createAnexo">Añadir Anexo</a>
                     <table class="table table-striped table-bordered" id="tablaEmpleados">
                         <thead>
                             <tr>
@@ -46,7 +46,8 @@
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title" id="modalHeading"></h4>
+                                    <h3 class="modal-title" id="modalHeading"></h3>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                     <form id="empleadosForm" name="empleadosForm" class="form-horizontal">
@@ -68,7 +69,10 @@
                                             Departamento: <br>
                                             <input type="text" class="form-control" id="departamento" name="departamento" placeholder="Ingrese el departamento" value="" required>
                                         </div>
-                                        <button type="submit" class="btn btn-primary mt-3" id="saveBtn" value="Create">Crear</button>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                            <button type="submit" class="btn btn-primary" id="saveBtn" value="Create">Crear</button>
+                                        </div>
                                     </form>
                                 </div>
                             </div>
@@ -76,14 +80,13 @@
                     </div>
 
                     <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabels" aria-hidden="true">
-                        <div class="modal-dialog">
+                        <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabels">Editar información Anexo </h5>
+                                    <h3 class="modal-title" id="exampleModalLabels">Editar información Anexo </h3>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                {{-- create a form here.. --}}
                                     <form method="POST" id="editAnexoForm">
                                         @csrf
                                         <input type="hidden" id="anexo_ids" name="anexo_ids">
@@ -110,16 +113,15 @@
                                     </form>
                                 </div>
 
-                            {{-- this is to make sure the save changes button is within form --}}
                             </div>
                         </div>
                     </div>
 
                     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
+                        <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Eliminar Anexo</h5>
+                                    <h3 class="modal-title" id="exampleModalLabel">Eliminar Anexo</h3>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                     <div class="modal-body">                                       
@@ -132,6 +134,7 @@
                             </div>
                         </div>
                     </div>
+                    
             </div>
         </div>
     </div>

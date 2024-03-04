@@ -4,6 +4,7 @@ use App\Http\Controllers\CSVImportController;
 use App\Livewire\RegisterForm;
 use Illuminate\Support\Facades\Route;
 use \App\http\Controllers\AuthController;
+use \App\http\Controllers\PerfilController;
 use \App\http\Controllers\UserController;
 use \App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Controllers\ForgotPasswordController;
@@ -40,6 +41,8 @@ Route::prefix('auth')->name('auth.')->group(function () {
         Route::get('delete/anexo/{id}',[AuthController::class,'deleteAnexo'])->name('deleteAnexo');
         Route::get('delete/user/{id}',[UserController::class,'deleteUser'])->name('deleteUser');
         Route::match(['get','post'],'/edit/anexo',[AuthController::class,'editAnexo'])->name('editAnexo');
+        Route::match(['get','post'],'/edit/user',[UserController::class,'editUser'])->name('editUser');
+        Route::match(['get','post'],'/mi_perfil',[PerfilController::class,'miPerfil'])->name('miPerfil');
         Route::get('/agregar_empleado', [AuthController::class,'addEmpleados'])->name('addEmpleados');
         Route::post('/import', [CSVImportController::class,'import'])->name('import');
     });
