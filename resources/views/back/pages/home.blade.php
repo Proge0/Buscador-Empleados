@@ -25,6 +25,7 @@
         <div class="card">
             <div class="card-body">
                 <div id="table-default" class="table-responsive">
+                    <a class="btn btn-teal mb-2 me-4 float-end" href="{{ route('auth.export') }}" id="exportarExcel">Exportar Excel</a>
                     <a class="btn btn-success mb-2 me-4 float-end" href="javascript:void(0)" id="createAnexo">Añadir Anexo</a>
                     <table class="table table-striped table-bordered" id="tablaEmpleados">
                         <thead>

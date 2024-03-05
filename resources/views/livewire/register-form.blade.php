@@ -1,43 +1,48 @@
-<div>
-    <div class="card card-md">
-        <div class="card-body">
-            <h2 class="h2 text-center mb-4">Regístrar un usuario</h2>
-            <form wire:submit.prevent="createUser()" method="post" autocomplete="off" novalidate="">
-                @csrf
-                <div class="mb-3">
-                    <label class="form-label">Nombre:</label>
-                    <input type="text" class="form-control" placeholder="Nombre" autocomplete="off" wire:model="username">
-                    @error('name')
-                        <span class="text-danger">{{ $message }} </span>
-                    @enderror
+<div class="card">
+    <div class="card-body">
+        
+        <form wire:submit.prevent="createUser()" method="post" autocomplete="off" novalidate="">
+            @csrf
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">Nombre:</label>
+                        <input type="text" class="form-control" placeholder="Nombre" autocomplete="off" wire:model="username">
+                        @error('name')
+                            <span class="text-danger">{{ $message }} </span>
+                        @enderror
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label">Correo electrónico:</label>
-                    <input type="email" class="form-control" placeholder="Correo electrónico" autocomplete="off" wire:model="email">
-                    @error('email')
-                        <span class="text-danger">{{ $message }} </span>
-                    @enderror
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">Correo electrónico:</label>
+                        <input type="email" class="form-control" placeholder="Correo electrónico" autocomplete="off" wire:model="email">
+                        @error('email')
+                            <span class="text-danger">{{ $message }} </span>
+                        @enderror
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label">Contraseña:</label>
-                    <input type="password" class="form-control" placeholder="Contraseña" autocomplete="off" wire:model="password">
-                    @error('password')
-                        <span class="text-danger">{{ $message }} </span>
-                    @enderror
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">Contraseña:</label>
+                        <input type="password" class="form-control" placeholder="Contraseña" autocomplete="off" wire:model="password">
+                        @error('password')
+                            <span class="text-danger">{{ $message }} </span>
+                        @enderror
+                    </div>
                 </div>
 
-                <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" wire:model="is_admin">
-                <label class="form-check-label" for="flexSwitchCheckDefault">¿Es administrador?</label>
+                <div class="col-md-3">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" wire:model="is_admin">
+                        <label class="form-check-label" for="flexSwitchCheckDefault">¿Es administrador?</label>
+                        
+                    </div>
                 </div>
-
-                <div class="form-footer">
-                    <button type="submit" class="btn btn-primary w-100">Registrarse</button>
-                </div>
-            </form>
-        </div>
+                    <button type="submit" class="btn btn-primary w-100">Crear Usuario</button>
+            </div>
+        </form>
     </div>
-
 </div>

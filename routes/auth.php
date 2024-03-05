@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CSVImportController;
+use App\Http\Controllers\CSVExportController;
 use App\Livewire\RegisterForm;
 use Illuminate\Support\Facades\Route;
 use \App\http\Controllers\AuthController;
@@ -45,6 +46,7 @@ Route::prefix('auth')->name('auth.')->group(function () {
         Route::match(['get','post'],'/mi_perfil',[PerfilController::class,'miPerfil'])->name('miPerfil');
         Route::get('/agregar_empleado', [AuthController::class,'addEmpleados'])->name('addEmpleados');
         Route::post('/import', [CSVImportController::class,'import'])->name('import');
+        Route::get('/export', [CSVExportController::class,'export'])->name('export');
     });
 
 });

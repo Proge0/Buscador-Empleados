@@ -2,11 +2,10 @@
 @section('pageTitle', isset($pageTitle) ? $pageTitle : 'Usuarios - Municipalidad de Arica')
 @section('content')
 
-
 <div class="container">
     <div class="d-flex flex-column ">
       <div class="text-center">
-        <h1>Buscador de Usuarios</h1>
+        <h1>Usuarios Registrados</h1>
         <div class="d-md-block">
           <div class="input-icon">
             <input type="text" id="buscadorUsuarios" class="form-control" placeholder="Buscar Usuario, Correo, Rol..." />
@@ -116,8 +115,7 @@
                     </div>
     </div>
 </div>
-
-
+@livewire('register-form')
 
 <style>
 #tablaEmpleados_wrapper {
@@ -133,7 +131,7 @@ div.dataTables_wrapper div.dataTables_filter input {
 </style>
 
 <script>
-  
+
 $(document).ready(function() {
     var tabla = $("#tablaUsuarios").DataTable({
       dom: "prt",
@@ -142,6 +140,7 @@ $(document).ready(function() {
       scrollCollapse: true,
       scrollY: '33rem',
       fixedHeader: true,
+      responsive: true,
       language: {
         url: "//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json"
       }
@@ -155,6 +154,7 @@ $(document).ready(function() {
       var valor = $(this).val();
       tabla.search(valor).draw();
     });
+
 
   function showSuccessAlert(message) {
             Swal.fire({
@@ -185,7 +185,6 @@ $(document).ready(function() {
         $("#user_name").val(users_name);
         $("#user_correo").val(users_email);
         $("#user_rol").val(users_rol);
-        console.log("user_id:", users_id);
         $("#user_id").val(users_id);
     });
 
@@ -220,17 +219,15 @@ $(document).ready(function() {
             method: "POST",
             dataType: "json",
             beforeSend: function () {
-                console.log(formData);
                 $(".editButton").prop("disabled", true);
             },
             complete: function () {
                 $(".editButton").prop("disabled", false);
             },
             success: function (data) {
-                console.log(data);
                 if (data.success == true) {
                     $("#editModalUser").modal("hide");
-                    showSuccessAlert("Se ha editado el anexo exitosamente");
+                    showSuccessAlert("Se ha editado el usuario exitosamente");
                 } else if (data.success == false) {
                     printErrorMsg(data, "123");
                     console.log(data, "123");
