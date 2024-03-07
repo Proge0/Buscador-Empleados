@@ -44,6 +44,7 @@ Route::prefix('auth')->name('auth.')->group(function () {
         Route::match(['get','post'],'/edit/anexo',[AuthController::class,'editAnexo'])->name('editAnexo');
         Route::match(['get','post'],'/edit/user',[UserController::class,'editUser'])->name('editUser');
         Route::match(['get','post'],'/mi_perfil',[PerfilController::class,'miPerfil'])->name('miPerfil');
+        Route::match(['get','post'],'/mi_perfil/edit',[PerfilController::class,'editarPerfil'])->name('editarPerfil');
         Route::get('/agregar_empleado', [AuthController::class,'addEmpleados'])->name('addEmpleados');
         Route::post('/import', [CSVImportController::class,'import'])->name('import');
         Route::get('/export', [CSVExportController::class,'export'])->name('export');
