@@ -132,32 +132,37 @@ div.dataTables_wrapper div.dataTables_filter input {
 
 <script>
 
+// Espera a que el documento HTML esté completamente cargado antes de ejecutar el script
 $(document).ready(function() {
+    // Inicializa la tabla DataTable con opciones de configuración
     var tabla = $("#tablaUsuarios").DataTable({
-      dom: "prt",
-      paging: false,
-      autoWidth: false,
-      scrollCollapse: true,
-      scrollY: '33rem',
-      fixedHeader: true,
-      responsive: true,
-      language: {
-        url: "//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json"
-      }
+        dom: "prt",
+        paging: false,
+        autoWidth: false,
+        scrollCollapse: true,
+        scrollY: '33rem',
+        fixedHeader: true,
+        responsive: true,
+        language: {
+            // Configuración de idioma para DataTables
+            url: "//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json"
+        }
     });
-    
+
+    // Ajusta las columnas de la tabla cuando se redimensiona la ventana del navegador
     $(window).resize(function() {
-      tabla.columns.adjust();
+        tabla.columns.adjust();
     });
 
+    // Configura la funcionalidad de búsqueda en tiempo real para la tabla
     $("#buscadorUsuarios").on("keyup", function() {
-      var valor = $(this).val();
-      tabla.search(valor).draw();
+        var valor = $(this).val();
+        tabla.search(valor).draw();
     });
 
-
-  function showSuccessAlert(message) {
-            Swal.fire({
+    // Función para mostrar una alerta de éxito utilizando SweetAlert
+    function showSuccessAlert(message) {
+        Swal.fire({
             icon: 'success',
             title: 'Éxito',
             text: message,
@@ -166,28 +171,33 @@ $(document).ready(function() {
             confirmButtonColor: '#3085d6',
             allowOutsideClick: false,
             allowEscapeKey: false,
-            }).then((result) => {
+        }).then((result) => {
             if (result.isConfirmed) {
+                // Recarga la página después de cerrar la alerta
                 Swal.getPopup().addEventListener('click', () => {
-                location.reload();
+                    location.reload();
                 });
             }
-            });
+        });
     }
 
+    // Evento de clic para manejar la edición de usuarios
     $(document).on("click", ".editar-btn-user", function () {
+        // Obtiene los datos del usuario desde los atributos del botón
         var users_id = $(this).attr("data-id");
         var users_name = $(this).attr("data-name");
         var users_email = $(this).attr("data-email");
         var users_password = $(this).attr("data-password");
         var users_rol = $(this).attr("data-rol");
 
+        // Asigna los valores a los campos del formulario de edición
         $("#user_name").val(users_name);
         $("#user_correo").val(users_email);
         $("#user_rol").val(users_rol);
         $("#user_id").val(users_id);
     });
 
+    // Función para manejar mensajes de validación de formularios
     function printValidationErrorMsg(data) {
         if (data.hasOwnProperty("errors")) {
             $.each(data.errors, function (field_name, errors) {
@@ -202,6 +212,7 @@ $(document).ready(function() {
         }
     }
 
+    // Función para manejar mensajes de error generales
     function printErrorMsg(msg) {
         $("#alert-danger").html("");
         $("#alert-danger").css("display", "block");
@@ -210,6 +221,7 @@ $(document).ready(function() {
         $("#alert-success").css("display", "none");
     }
 
+    // Evento de envío del formulario de edición de usuario mediante AJAX
     $("#editUserForm").on("submit", function (e) {
         e.preventDefault();
         let formData = $(this).serialize();
@@ -239,38 +251,40 @@ $(document).ready(function() {
         });
     });
 
+    var userId;
 
-  var userId;
+    // Evento de clic para manejar la eliminación de usuarios
+    $(document).on('click', '.eliminar-btn-user', function(){
+        // Obtiene el nombre y el id del usuario desde los atributos del botón
+        var user_name = $(this).attr('data-name');
+        userId = $(this).attr('data-id');
+        $('.user_names').html('');
+        $('.user_names').html(user_name);
+        $('#deleteModalUser').modal('show'); // Muestra el modal de confirmación
+    });
 
-  $(document).on('click', '.eliminar-btn-user', function(){
-      var user_name = $(this).attr('data-name');
-      userId = $(this).attr('data-id');
-      $('.user_names').html('');
-      $('.user_names').html(user_name);
-      $('#deleteModalUser').modal('show'); // Show the modal
-  });
-
-  $(document).on('click','.deleteButton', function(){
-      user_id = userId
-      var url = "http://buscador.test/auth/delete/user/" + user_id
-          $.ajax({
-              url: url,
-              type: 'GET',
-              contentType: false,
-              processData:false,
-                  beforeSend:function(){
-                      $('.deleteButton').prop('disabled', true);
-                  },
-                  complete: function(){
-                      $('.deleteButton').prop('disabled', false);
-                  },
-                  success: function(data){
-                      showSuccessAlert('Se ha eliminado el anexo exitosamente');
-                  }
-              });
-
-  });
+    // Evento de clic para manejar la eliminación de usuarios mediante AJAX
+    $(document).on('click','.deleteButton', function(){
+        user_id = userId;
+        var url = "http://buscador.test/auth/delete/user/" + user_id;
+        $.ajax({
+            url: url,
+            type: 'GET',
+            contentType: false,
+            processData:false,
+            beforeSend:function(){
+                $('.deleteButton').prop('disabled', true);
+            },
+            complete: function(){
+                $('.deleteButton').prop('disabled', false);
+            },
+            success: function(data){
+                showSuccessAlert('Se ha eliminado el anexo exitosamente');
+            }
+        });
+    });
 });
+
 
 
 

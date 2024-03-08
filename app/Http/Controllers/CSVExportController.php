@@ -9,6 +9,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class CSVExportController extends Controller
 {
+    // Método para exportar datos de Anexos a un archivo Excel (XLSX)
     public function export()
     {
         $anexos = Anexos::all();

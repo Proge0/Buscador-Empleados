@@ -27,7 +27,7 @@
                         </div>
                         <div class="card-body">
                             <h3 class="card-title">Para subir el archivo correctamente, debe cumplir con los siguientes requisitos:</h3>
-                            <p>✓ El formato del archivo debe ser CSV (delimitado por comas).</p>
+                            <p>✓ El formato del archivo debe ser CSV UTF-8 (delimitado por comas).</p>
                             <p>✓ El orden de las columnas debe ser: Número Público - Número Anexo - Nombre Anexo - Departamento.</p>
                             <p>✓ No debe haber columnas adicionales ni faltantes.</p>
                             <h3 class="card-title">Presiona en este botón para descargar el formato correcto:</h3>

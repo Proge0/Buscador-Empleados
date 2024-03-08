@@ -1,6 +1,8 @@
+// Inicialización de la tabla DataTable
 var table;
 
 $(document).ready(function () {
+    // Configuración y creación de la tabla DataTable
     table = $("#tablaEmpleados").DataTable({
         dom: "prt",
         paging: false,
@@ -13,18 +15,22 @@ $(document).ready(function () {
         },
     });
 
+    // Filtro de búsqueda en tiempo real
     $("#inputField").on("keyup", function () {
         var valor = $(this).val().toLowerCase();
         table.search(valor).draw();
     });
 
+    // Configuración de CSRF para AJAX
     $.ajaxSetup({
         headers: {
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
         },
     });
 
+    // Función para mostrar una alerta de éxito
     function showSuccessAlert(message) {
+        // Configuración de la alerta de SweetAlert
         Swal.fire({
             icon: "success",
             title: "Éxito",
@@ -36,21 +42,21 @@ $(document).ready(function () {
             allowEscapeKey: false,
         }).then((result) => {
             if (result.isConfirmed) {
-                Swal.getPopup().addEventListener("click", () => {
-                    location.reload();
-                });
+                // Recarga la página después de cerrar la alerta
+                location.reload();
             }
         });
     }
 
+    // Evento de clic para abrir el modal de creación de anexo
     $(document).on("click", "#createAnexo", function () {
-        console.log("click");
         $("#anexo_id").val("");
         $("#empleadosForm").trigger("reset");
         $("#modalHeading").html("Agregar Anexo");
         $("#ajaxModel").modal("show");
     });
 
+    // Evento de clic para guardar el formulario de creación de anexo mediante AJAX
     $("#saveBtn").click(function (e) {
         e.preventDefault();
         $(this).html("Guardar");
@@ -58,6 +64,7 @@ $(document).ready(function () {
         var formData = $("#empleadosForm").serializeArray();
         formData.push({ name: "_token", value: "{{ csrf_token() }}" });
 
+        // Envío de la solicitud AJAX para crear un nuevo anexo
         $.ajax({
             data: $("#empleadosForm").serialize(),
             url: "/auth/agregar_anexo",
@@ -81,12 +88,12 @@ $(document).ready(function () {
         });
     });
 
-    var filasOriginales = [];
-
+    // Evento de redimensionamiento de la ventana para ajustar las columnas de DataTable
     $(window).resize(function () {
         table.columns.adjust();
     });
 
+    // Solicitud AJAX para obtener la lista de anexos al cargar la página
     $.ajax({
         url: "/auth/listar-anexo",
         type: "POST",
@@ -96,10 +103,12 @@ $(document).ready(function () {
         },
     });
 
+    // Función para actualizar la tabla con datos proporcionados por la solicitud AJAX
     function actualizarTabla(data) {
         var tableBody = $("#tablaEmpleados tbody");
         tableBody.empty();
 
+        // Mapeo de datos para formar las filas de la tabla
         filasOriginales = data.map(function (anexo) {
             return [
                 anexo.numeros_publicos,
@@ -128,6 +137,7 @@ $(document).ready(function () {
         table.rows.add(filasOriginales).draw();
     }
 
+    // Evento de clic para abrir el modal de edición de anexo
     $(document).on("click", ".editar-btn", function () {
         var anexos_id = $(this).attr("data-id");
         var anexos_numeros = $(this).attr("data-number");
@@ -135,6 +145,7 @@ $(document).ready(function () {
         var anexos_name = $(this).attr("data-name");
         var anexos_departamento = $(this).attr("data-departamento");
 
+        // Asignación de valores a los campos del formulario de edición
         $("#anexo_numeros").val(anexos_numeros);
         $("#anexo_anexo").val(anexos_anexo);
         $("#anexo_name").val(anexos_name);
@@ -143,28 +154,7 @@ $(document).ready(function () {
         $("#anexo_ids").val(anexos_id);
     });
 
-    function printValidationErrorMsg(data) {
-        if (data.hasOwnProperty("errors")) {
-            $.each(data.errors, function (field_name, errors) {
-                errors.forEach(function (error) {
-                    $(document)
-                        .find("#" + field_name + "_error")
-                        .text(error);
-                });
-            });
-        } else {
-            printErrorMsg(data.msg);
-        }
-    }
-
-    function printErrorMsg(msg) {
-        $("#alert-danger").html("");
-        $("#alert-danger").css("display", "block");
-        $("#alert-danger").append("" + msg + "");
-        $("#alert-success").html("");
-        $("#alert-success").css("display", "none");
-    }
-
+    // Evento de envío del formulario de edición de anexo mediante AJAX
     $("#editAnexoForm").on("submit", function (e) {
         e.preventDefault();
         let formData = $(this).serialize();
