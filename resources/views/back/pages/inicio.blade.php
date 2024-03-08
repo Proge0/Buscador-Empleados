@@ -64,7 +64,7 @@
             <div class="container">
                 <div class="d-flex flex-column mt-4">
                   <div class="text-center">
-                    <h1>Buscador de Empleados</h1>
+                    <h1>Buscador de Empleados Municipales</h1>
                     <div class="d-md-block">
                       <div class="input-icon">
                         <input type="text" id="inputField" class="form-control" placeholder="Buscar Anexo, Empleado, Oficina..." />
